@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using App.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ namespace App.API.Controllers
         }
 
         // GET api/values
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
@@ -26,6 +28,7 @@ namespace App.API.Controllers
         }
 
         // GET api/values/5
+        [Authorize(Policy = "ManagerRole")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
         {

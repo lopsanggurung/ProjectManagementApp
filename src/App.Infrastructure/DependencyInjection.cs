@@ -19,14 +19,29 @@ namespace App.Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            // // If using AddIdentity instead of AddIdentityCore
+            // services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            // {
+            //     opt.Password.RequireDigit = false;
+            //     opt.Password.RequiredLength = 6;
+            //     opt.Password.RequireNonAlphanumeric = false;
+            //     opt.Password.RequireUppercase = false;
+            // })
+            // .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            IdentityBuilder builder = services.AddIdentityCore<ApplicationUser>(opt =>
             {
                 opt.Password.RequireDigit = false;
                 opt.Password.RequiredLength = 6;
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = false;
-            })
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            });
+
+            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+            builder.AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.AddRoleValidator<RoleValidator<IdentityRole>>();
+            builder.AddRoleManager<RoleManager<IdentityRole>>();
+            builder.AddSignInManager<SignInManager<ApplicationUser>>();
 
             return services;
         }
