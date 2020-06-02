@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using App.API.Dtos;
+using App.API.Filters;
 using App.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivityFilter))]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using App.API.Filters;
 using App.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -80,6 +81,8 @@ namespace App.API
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddCors();
+
+            services.AddScoped<LogUserActivityFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
