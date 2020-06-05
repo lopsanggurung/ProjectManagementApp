@@ -49,7 +49,7 @@
       <li style="float:right">
         <span class="user-menu" *ngIf="loggedIn()">
           <span>
-            Welcome User
+            Welcome {{authService.decodedToken?.unique_name | titlecase}}
           </span>
         </span>
       </li>
