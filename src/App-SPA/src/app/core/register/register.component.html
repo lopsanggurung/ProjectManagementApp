@@ -1,3 +1,28 @@
-<p>
-  register works!
-</p>
+<div class="outer-container">
+  <div class="inner-container">
+    <div class="title">
+      <h2>Welcome to App</h2>
+      <h3>Register</h3>
+    </div>
+    <div class="form-outer-container">
+      <div class="form-inner-container">
+        <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="onRegister(registerForm.value)">
+          <div>
+            <input type="text" placeholder="Username" formControlName="username" id="username">
+            <p *ngIf="hasError('username', 'required')">Username is required</p>
+            <p *ngIf="hasError('username', 'minlength')">Minimum 6 characters required</p>
+            <p *ngIf="hasError('username', 'maxlength')">Maximum of 20 characters</p>
+            <input type="password" placeholder="Password" formControlName="password" id="password">
+            <p *ngIf="hasError('password', 'required')">Password is required</p>
+            <p *ngIf="hasError('password', 'minlength')">Minimum 6 characters required</p>
+            <p *ngIf="hasError('password', 'maxlength')">Maximum of 20 characters</p>
+          </div>
+          <div>
+            <button [disabled]="!registerForm.valid">Register</button>
+            <button (click)="onCancel()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
