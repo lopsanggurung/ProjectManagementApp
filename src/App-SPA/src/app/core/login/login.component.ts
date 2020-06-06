@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   public onForgotPassword = () => {
     console.log('Clicked Forgot Password');
-    this.router.navigateByUrl('/resetPassword');
+    this.router.navigate(['/resetPassword']);
   }
 
   public onLogin = (loginFormValue) => {
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       };
       // console.log(this.model);
       this.authService.login(this.model).subscribe(next => {
-        this.router.navigateByUrl('/pages');
+        this.router.navigate(['/pages/dashboard']);
       }, error => {
         console.log('Failed to login');
       });
@@ -48,6 +48,6 @@ export class LoginComponent implements OnInit {
 
   public openRegister = () => {
     console.log('Clicked Register');
-    this.router.navigateByUrl('/register');
+    this.router.navigate(['/register']);
   }
 }

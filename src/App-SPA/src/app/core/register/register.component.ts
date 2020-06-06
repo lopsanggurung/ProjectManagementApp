@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
 
   public onCancel = () => {
     console.log('Clicked Cancel');
-    this.router.navigateByUrl('/login');
+    this.router.navigate(['/login']);
   }
 
   public onRegister = (registerFormValue) => {
@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
           console.log(error);
         }, () => {
           this.authService.login(this.model).subscribe(() => {
-            this.router.navigateByUrl('/pages');
+            this.router.navigate(['/pages/dashboard']);
           });
         }
       );
