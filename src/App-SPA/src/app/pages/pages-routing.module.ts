@@ -5,6 +5,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { PagesComponent } from './pages.component';
 import { AuthGuard } from '../core/auth.guard';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserListResolver } from './user/_resolvers/user-list.resolver';
 
 const routes: Routes = [
     {
@@ -16,6 +18,11 @@ const routes: Routes = [
             {
                 path: 'dashboard',
                 component: DashboardComponent
+            },
+            {
+                path: 'users',
+                component: UserListComponent,
+                resolve: { users: UserListResolver }
             },
             {
                 path: 'admin',
