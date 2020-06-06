@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { Validators, FormGroup, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../auth.service';
+import { User } from 'src/app/_models/user';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  model: any = {};
+  user: User;
   public registerForm: FormGroup;
 
   constructor(private router: Router, private authService: AuthService) { }
@@ -18,8 +19,15 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.registerForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)])
-    });
+      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
+      confirmPassword: new FormControl('', [Validators.required])
+    }, this.passwordMatchValidator);
+  }
+
+  passwordMatchValidator(g: FormGroup) {
+    return g.get('password').value === g.get('confirmPassword').value
+      ? null
+      : { mismatch: true };
   }
 
   public hasError = (controlName: string, errorName: string) => {
@@ -33,15 +41,12 @@ export class RegisterComponent implements OnInit {
 
   public onRegister = (registerFormValue) => {
     if (this.registerForm.valid) {
-      this.model = {
-        username: registerFormValue.username,
-        password: registerFormValue.password
-      };
+      this.user = Object.assign({}, this.registerForm.value);
       // console.log(this.model);
-      this.authService.register(this.model).subscribe(
+      this.authService.register(this.user).subscribe(
         () => {
           console.log('Registration successful');
-          this.authService.login(this.model).subscribe(() => {
+          this.authService.login(this.user).subscribe(() => {
             this.router.navigate(['/pages/dashboard']);
           });
         },

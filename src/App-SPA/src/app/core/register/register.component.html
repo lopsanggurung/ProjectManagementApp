@@ -16,6 +16,10 @@
             <p *ngIf="hasError('password', 'required')">Password is required</p>
             <p *ngIf="hasError('password', 'minlength')">Minimum 6 characters required</p>
             <p *ngIf="hasError('password', 'maxlength')">Maximum of 20 characters</p>
+            <input type="password" placeholder="Confirm Password" formControlName="confirmPassword"
+              id="confirmPassword">
+            <p *ngIf="hasError('confirmPassword', 'required')">Confirm Password is required</p>
+            <p *ngIf="registerForm.hasError('mismatch')">Passwords must match</p>
           </div>
           <div>
             <button [disabled]="!registerForm.valid">Register</button>
