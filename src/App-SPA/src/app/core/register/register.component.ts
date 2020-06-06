@@ -41,13 +41,12 @@ export class RegisterComponent implements OnInit {
       this.authService.register(this.model).subscribe(
         () => {
           console.log('Registration successful');
-        },
-        error => {
-          console.log(error);
-        }, () => {
           this.authService.login(this.model).subscribe(() => {
             this.router.navigate(['/pages/dashboard']);
           });
+        },
+        error => {
+          console.log(error);
         }
       );
     }
