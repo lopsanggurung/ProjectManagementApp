@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using App.API.Dtos;
 using App.API.Filters;
@@ -104,6 +106,30 @@ namespace App.API.Controllers
             }
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(string id, UserForUpdateDto userForUpdateDto)
+        {
+            if (id != User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                return Unauthorized();
+
+            var userFromRepo = await _userManager.FindByIdAsync(id);
+
+            userFromRepo.FirstName = userForUpdateDto.FirstName;
+            userFromRepo.MiddleName = userForUpdateDto.MiddleName;
+            userFromRepo.LastName = userForUpdateDto.LastName;
+            userFromRepo.Email = userForUpdateDto.Email;
+            userFromRepo.PhoneNumber = userForUpdateDto.PhoneNumber;
+
+            var result = await _userManager.UpdateAsync(userFromRepo);
+
+            if (result.Succeeded)
+            {
+                return NoContent();
+            }
+
+            throw new Exception($"Updating user {id} failed on save");
         }
     }
 }
