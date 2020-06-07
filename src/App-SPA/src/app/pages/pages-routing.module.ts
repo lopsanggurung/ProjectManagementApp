@@ -35,7 +35,8 @@ const routes: Routes = [
             },
             {
                 path: 'admin',
-                component: AdminComponent
+                component: AdminComponent,
+                data: { roles: ['Admin'] }
             },
             {
                 path: '**',

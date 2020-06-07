@@ -14,6 +14,7 @@ import { UserListResolver } from './user/_resolvers/user-list.resolver';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserEditResolver } from './user/_resolvers/user-edit.resolver';
 import { PreventUnsavedchanges } from './user/_guards/prevent-unsaved-changes.guard';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { PreventUnsavedchanges } from './user/_guards/prevent-unsaved-changes.gu
     DashboardComponent,
     AdminComponent,
     UserListComponent,
-    UserEditComponent
+    UserEditComponent,
+    UserManagementComponent
   ]
 })
 export class PagesModule { }

@@ -1,0 +1,22 @@
+<div class="outer-container">
+  <div class="inner-container">
+    <table>
+      <tr>
+        <th style="width: 30%">User ID</th>
+        <th style="width: 20%">Username</th>
+        <th style="width: 30%">Active Roles</th>
+        <th style="width: 20%">Action</th>
+      </tr>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td style="text-align: left;">{{ user.userName }}</td>
+        <td style="text-align: right;">{{ user.roles }}</td>
+        <td>
+          <button (click)="editUserDetail(user)">
+            Edit
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -32,7 +32,7 @@
         </a>
       </li>
       <li>
-        <a routerLink='../pages/admin' routerLinkActive="active">
+        <a *appHasRole="['Admin']" routerLink='../pages/admin' routerLinkActive="active">
           Admin
         </a>
       </li>

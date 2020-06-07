@@ -8,4 +8,5 @@ export interface User {
     phoneNumber: string;
     created: Date;
     lastActive: Date;
+    roles?: string[];
 }
