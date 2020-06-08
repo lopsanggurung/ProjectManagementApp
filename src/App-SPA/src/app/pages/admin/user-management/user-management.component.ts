@@ -16,6 +16,8 @@ export class UserManagementComponent implements OnInit {
 
   editUserDetail(user: User): void {
     console.log('editUserDetail button clicked');
+    this.adminService.selectedUser = user;
+    this.router.navigate(['/pages/admin/editRoles']);
   }
 
   ngOnInit() {

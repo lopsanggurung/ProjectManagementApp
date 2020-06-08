@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from './../../core/core.module';
 import { SharedModule } from './../../shared/shared.module';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
+import { EditRolesComponent } from './edit-roles/edit-roles.component';
 
 @NgModule({
   imports: [
@@ -11,6 +12,6 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
     CoreModule,
     SharedModule
   ],
-  declarations: [ManageUsersComponent]
+  declarations: [ManageUsersComponent, EditRolesComponent]
 })
 export class AdminModule { }

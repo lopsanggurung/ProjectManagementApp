@@ -9,6 +9,7 @@ import { User } from '../_models/user';
 })
 export class AdminService {
   baseUrl = environment.apiUrl;
+  selectedUser: User;
 
   constructor(private http: HttpClient) { }
 

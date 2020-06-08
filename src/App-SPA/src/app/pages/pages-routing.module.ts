@@ -10,6 +10,7 @@ import { UserListResolver } from './user/_resolvers/user-list.resolver';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserEditResolver } from './user/_resolvers/user-edit.resolver';
 import { PreventUnsavedchanges } from './user/_guards/prevent-unsaved-changes.guard';
+import { EditRolesComponent } from './admin/edit-roles/edit-roles.component';
 
 const routes: Routes = [
     {
@@ -36,6 +37,11 @@ const routes: Routes = [
             {
                 path: 'admin',
                 component: AdminComponent,
+                data: { roles: ['Admin'] }
+            },
+            {
+                path: 'admin/editRoles',
+                component: EditRolesComponent,
                 data: { roles: ['Admin'] }
             },
             {

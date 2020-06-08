@@ -1,0 +1,20 @@
+<div class="container">
+  <h2 class="title">Edit User Role ({{selectedUser.userName}})</h2>
+
+  <p>First Name: {{selectedUser.firstName}}</p>
+  <p>Last Name: {{selectedUser.lastName}}</p>
+
+  <form #rolesForm="ngForm" id="rolesForm">
+    <div *ngFor="let role of roles">
+      <div class="input-group">
+
+        <label>{{role.name}}</label>
+        <input type="checkbox" value="{{role.name}}" [checked]="role.checked" (change)="role.checked = !role.checked"
+          [disabled]="role.name === 'Admin' && selectedUser.userName === 'Admin'">
+      </div>
+    </div>
+  </form>
+
+  <button (click)="updateRoles()" form="rolesForm">Submit</button>
+  <button class="cancel-button" (click)="onCancel()">Cancel</button>
+</div>

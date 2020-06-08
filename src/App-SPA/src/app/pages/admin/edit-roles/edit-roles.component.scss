@@ -1,0 +1,50 @@
+.container {
+    padding: 20px;
+    margin-top: 50px;
+    background-color: white;
+}
+
+.title {
+    color: #505050;
+}
+
+label {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    min-width: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+input[type="checkbox"] {
+    transform: scale(2);
+}
+
+.cancel-button {
+    margin-left: 20px;
+    background-color: lighten(#333, 20%);
+}
+
+button {
+    border: none;
+    color: white;
+    padding: 10px 5%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    background-color: #4caf50;
+}
+
+button:hover:enabled {
+    background-color: darken(#4caf50, 15%);
+    cursor: pointer;
+}
+
+a:hover {
+    color: darken(#4caf50, 15%);
+    cursor: pointer;
+}
