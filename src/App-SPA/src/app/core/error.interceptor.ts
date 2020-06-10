@@ -33,6 +33,15 @@ export class ErrorInterceptor implements HttpInterceptor {
                             }
                         }
                     }
+                    else if (Array.isArray(serverError)) {
+                        for (const el of serverError) {
+                            for (const key in el) {
+                                if (el[key]) {
+                                    modalStateErrors += el[key] + '\n';
+                                }
+                            }
+                        }
+                    }
                     return throwError(modalStateErrors || serverError || 'Server Error');
                 }
             })
