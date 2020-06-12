@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using App.API.Filters;
 using App.API.Helper;
+using App.API.Services;
+using App.Application.Common.Interfaces;
 using App.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -37,6 +39,8 @@ namespace App.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
+
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             // // If using AddIdentity instead of AddIdentityCore
             // services.AddAuthentication(options =>

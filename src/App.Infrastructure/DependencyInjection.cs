@@ -1,6 +1,7 @@
 using App.Application.Common.Interfaces;
 using App.Infrastructure.Identity;
 using App.Infrastructure.Persistence;
+using App.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +43,8 @@ namespace App.Infrastructure
             builder.AddRoleValidator<RoleValidator<IdentityRole>>();
             builder.AddRoleManager<RoleManager<IdentityRole>>();
             builder.AddSignInManager<SignInManager<ApplicationUser>>();
+
+            services.AddTransient<IDateTime, DateTimeService>();
 
             return services;
         }
