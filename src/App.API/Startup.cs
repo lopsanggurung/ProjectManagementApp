@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using App.API.Filters;
 using App.API.Helper;
 using App.API.Services;
+using App.Application;
 using App.Application.Common.Interfaces;
 using App.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,6 +39,8 @@ namespace App.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplication();
+
             services.AddInfrastructure(Configuration);
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
