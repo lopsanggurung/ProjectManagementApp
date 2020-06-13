@@ -87,6 +87,8 @@ namespace App.API
                         .RequireAuthenticatedUser()
                         .Build();
                     options.Filters.Add(new AuthorizeFilter(policy));
+
+                    options.Filters.Add(new ApiExceptionFilter());
                 }
             )
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
