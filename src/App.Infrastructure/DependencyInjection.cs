@@ -45,6 +45,7 @@ namespace App.Infrastructure
             builder.AddSignInManager<SignInManager<ApplicationUser>>();
 
             services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
             return services;
         }
