@@ -6,10 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.API.Controllers
 {
-     // GET http://localhost:5000/api/values
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ValuesController : ControllerBase
+    // GET http://localhost:5000/api/values
+    public class ValuesController : ApiController
     {
         private readonly ApplicationDbContext _context;
         public ValuesController(ApplicationDbContext context)

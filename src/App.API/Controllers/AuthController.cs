@@ -16,9 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace App.API.Controllers
 {
     [AllowAnonymous]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : ApiController
     {
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;

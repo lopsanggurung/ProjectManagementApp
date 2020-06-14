@@ -12,9 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace App.API.Controllers
 {
     [ServiceFilter(typeof(LogUserActivityFilter))]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : ApiController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         public UsersController(UserManager<ApplicationUser> userManager)

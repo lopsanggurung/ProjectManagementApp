@@ -10,9 +10,7 @@ using App.Infrastructure.Persistence;
 
 namespace App.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class AdminController : ControllerBase
+    public class AdminController : ApiController
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
