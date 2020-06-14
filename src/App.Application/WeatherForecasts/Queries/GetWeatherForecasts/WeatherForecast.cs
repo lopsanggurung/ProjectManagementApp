@@ -1,6 +1,6 @@
 using System;
 
-namespace App.API
+namespace App.Application.WeatherForecasts.Queries.GetWeatherForecasts
 {
     public class WeatherForecast
     {
