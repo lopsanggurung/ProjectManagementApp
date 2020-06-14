@@ -1,4 +1,5 @@
 using App.Application.Common.Interfaces;
+using App.Infrastructure.Files;
 using App.Infrastructure.Identity;
 using App.Infrastructure.Persistence;
 using App.Infrastructure.Services;
@@ -46,6 +47,7 @@ namespace App.Infrastructure
 
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
             return services;
         }

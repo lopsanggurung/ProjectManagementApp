@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using App.Application.TodoLists.Commands.CreateTodoList;
 using App.Application.TodoLists.Commands.DeleteTodoList;
 using App.Application.TodoLists.Commands.UpdateTodoList;
+using App.Application.TodoLists.Queries.ExportTodos;
 using App.Application.TodoLists.Queries.GetTodos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,14 @@ namespace App.API.Controllers
         public async Task<ActionResult<TodosVm>> Get()
         {
             return await Mediator.Send(new GetTodosQuery());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<FileResult> Get(int id)
+        {
+            var vm = await Mediator.Send(new ExportTodosQuery { ListId = id });
+
+            return File(vm.Content, vm.ContentType, vm.FileName);
         }
 
         [HttpPost]
