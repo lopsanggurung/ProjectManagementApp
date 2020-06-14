@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using App.Domain.Entities;
 using App.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
@@ -56,6 +58,30 @@ namespace App.Infrastructure.Persistence
                     userManager.AddToRoleAsync(user, "Member").Wait();
                 }
 
+            }
+        }
+
+        public static async Task SeedData(ApplicationDbContext context)
+        {
+            if (!context.TodoLists.Any())
+            {
+                context.TodoLists.Add(new TodoList
+                {
+                    Title = "Shopping",
+                    Items =
+                    {
+                        new TodoItem { Title = "Apples", Done = true },
+                        new TodoItem { Title = "Milk", Done = true },
+                        new TodoItem { Title = "Bread", Done = true },
+                        new TodoItem { Title = "Toilet paper" },
+                        new TodoItem { Title = "Pasta" },
+                        new TodoItem { Title = "Tissues" },
+                        new TodoItem { Title = "Tuna" },
+                        new TodoItem { Title = "Water" }
+                    }
+                });
+
+                await context.SaveChangesAsync();
             }
         }
     }

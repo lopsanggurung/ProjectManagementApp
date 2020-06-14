@@ -16,7 +16,7 @@ namespace App.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
@@ -30,6 +30,7 @@ namespace App.API
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     context.Database.Migrate();
                     Seed.SeedUsers(userManager, roleManager, context);
+                    await Seed.SeedData(context);
                 }
                 catch (Exception ex)
                 {
@@ -38,7 +39,7 @@ namespace App.API
                 }
             }
 
-            host.Run();
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
