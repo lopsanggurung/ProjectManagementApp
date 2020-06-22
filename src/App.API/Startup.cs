@@ -24,6 +24,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 
 namespace App.API
 {
@@ -93,6 +95,20 @@ namespace App.API
             )
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
+            services.AddOpenApiDocument(configure =>
+            {
+                configure.Title = "App API";
+                configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
+                {
+                    Type = OpenApiSecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    In = OpenApiSecurityApiKeyLocation.Header,
+                    Description = "Type into the textbox: Bearer {your JWT token}."
+                });
+
+                configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+            });
+
             services.AddCors();
 
             services.AddScoped<LogUserActivityFilter>();
@@ -124,6 +140,16 @@ namespace App.API
             }
 
             // app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+
+            app.UseOpenApi();
+
+            app.UseSwaggerUi3(settings =>
+            {
+                settings.Path = "/api";
+                settings.DocumentPath = "/api/specification.json";
+            });
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
