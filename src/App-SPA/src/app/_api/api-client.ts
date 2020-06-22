@@ -1033,9 +1033,9 @@ export class UsersClient extends ApiClientBase implements IUsersClient {
 }
 
 export interface IValuesClient {
-    getValues(): Observable<FileResponse>;
+    getValues(): Observable<Value[]>;
     post(value: string): Observable<void>;
-    getValue(id: number): Observable<FileResponse>;
+    getValue(id: number): Observable<Value>;
     put(id: number, value: string): Observable<void>;
     delete(id: number): Observable<void>;
 }
@@ -1054,7 +1054,7 @@ export class ValuesClient extends ApiClientBase implements IValuesClient {
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
-    getValues(): Observable<FileResponse> {
+    getValues(): Observable<Value[]> {
         let url_ = this.baseUrl + "/api/Values";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1062,7 +1062,7 @@ export class ValuesClient extends ApiClientBase implements IValuesClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -1073,31 +1073,37 @@ export class ValuesClient extends ApiClientBase implements IValuesClient {
                 try {
                     return this.processGetValues(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<Value[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<Value[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetValues(response: HttpResponseBase): Observable<FileResponse> {
+    protected processGetValues(response: HttpResponseBase): Observable<Value[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Value.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<Value[]>(<any>null);
     }
 
     post(value: string): Observable<void> {
@@ -1148,7 +1154,7 @@ export class ValuesClient extends ApiClientBase implements IValuesClient {
         return _observableOf<void>(<any>null);
     }
 
-    getValue(id: number): Observable<FileResponse> {
+    getValue(id: number): Observable<Value> {
         let url_ = this.baseUrl + "/api/Values/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1159,7 +1165,7 @@ export class ValuesClient extends ApiClientBase implements IValuesClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -1170,31 +1176,33 @@ export class ValuesClient extends ApiClientBase implements IValuesClient {
                 try {
                     return this.processGetValue(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<Value>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<Value>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetValue(response: HttpResponseBase): Observable<FileResponse> {
+    protected processGetValue(response: HttpResponseBase): Observable<Value> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Value.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<Value>(<any>null);
     }
 
     put(id: number, value: string): Observable<void> {
@@ -2016,6 +2024,46 @@ export interface IUserForUpdateDto {
     lastName?: string | undefined;
     email?: string | undefined;
     phoneNumber?: string | undefined;
+}
+
+export class Value implements IValue {
+    id?: number;
+    name?: string | undefined;
+
+    constructor(data?: IValue) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): Value {
+        data = typeof data === 'object' ? data : {};
+        let result = new Value();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IValue {
+    id?: number;
+    name?: string | undefined;
 }
 
 export class WeatherForecast implements IWeatherForecast {

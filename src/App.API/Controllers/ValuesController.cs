@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using App.Domain.Entities;
 using App.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +20,7 @@ namespace App.API.Controllers
         // GET api/values
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet]
-        public async Task<IActionResult> GetValues()
+        public async Task<ActionResult<IList<Value>>> GetValues()
         {
             var values = await _context.Values.ToListAsync();
 
@@ -28,7 +30,7 @@ namespace App.API.Controllers
         // GET api/values/5
         [Authorize(Policy = "ManagerRole")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetValue(int id)
+        public async Task<ActionResult<Value>> GetValue(int id)
         {
             var value = await _context.Values.FirstOrDefaultAsync(x => x.Id == id);
 
