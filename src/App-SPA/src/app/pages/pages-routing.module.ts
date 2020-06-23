@@ -11,6 +11,7 @@ import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserEditResolver } from './user/_resolvers/user-edit.resolver';
 import { PreventUnsavedchanges } from './user/_guards/prevent-unsaved-changes.guard';
 import { EditRolesComponent } from './admin/edit-roles/edit-roles.component';
+import { TodoComponent } from './todo/todo.component';
 
 const routes: Routes = [
     {
@@ -33,6 +34,10 @@ const routes: Routes = [
                 component: UserEditComponent,
                 resolve: { user: UserEditResolver },
                 canDeactivate: [PreventUnsavedchanges]
+            },
+            {
+                path: 'todo',
+                component: TodoComponent
             },
             {
                 path: 'admin',

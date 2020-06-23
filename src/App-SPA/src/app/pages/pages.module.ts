@@ -15,6 +15,7 @@ import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserEditResolver } from './user/_resolvers/user-edit.resolver';
 import { PreventUnsavedchanges } from './user/_guards/prevent-unsaved-changes.guard';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { TodoComponent } from './todo/todo.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { UserManagementComponent } from './admin/user-management/user-management
     AdminComponent,
     UserListComponent,
     UserEditComponent,
-    UserManagementComponent
+    UserManagementComponent,
+    TodoComponent
   ]
 })
 export class PagesModule { }
